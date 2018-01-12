@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+//import 'bootstrap/dist/css/bootstrap.css';
 import AppRouter, { history } from './routers/AppRouter';
 import configureStore from './store/configureStore';
 import { login, logout } from './actions/auth';
@@ -9,6 +10,12 @@ import './styles/styles.scss';
 import 'react-dates/lib/css/_datepicker.css';
 import { firebase } from './firebase/firebase';
 import LoadingPage from './components/LoadingPage';
+import { startSetMinistries } from './actions/ministries';
+import { startSetMinistriesFeed } from './actions/ministriesFeed';
+import { startSetMinistriesUserAdmin } from './actions/ministriesUserAdmin';
+import { startSetUserMinistries } from './actions/userMinistries';
+import { startSetSongs } from './actions/songs';
+import { startSetServices } from './actions/services';
 
 const store = configureStore();
 const jsx = (
@@ -29,10 +36,18 @@ ReactDOM.render(<LoadingPage />, document.getElementById('app'));
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     store.dispatch(login(user.uid));
-    renderApp();
-    if (history.location.pathname === '/') {
-      history.push('/dashboard');
-    }
+    store.dispatch(startSetServices());
+    store.dispatch(startSetMinistriesUserAdmin());
+    //store.dispatch(startSetSongs());
+    store.dispatch(startSetMinistries());
+    store.dispatch(startSetUserMinistries());
+    store.dispatch(startSetMinistriesFeed());
+    store.dispatch(startSetSongs()).then(() => {
+      renderApp();
+      if (history.location.pathname === '/') {
+        history.push('/dashboard');
+      }
+    });
   } else {
     store.dispatch(logout());
     renderApp();
