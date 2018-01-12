@@ -25,7 +25,7 @@ export const ServiceRundownList = (props) => (
                             let serviceFeed = [];
                             serviceFeed = props.service
                                 .filter((myService) => myService.ministryId === service.id 
-                                            && myService.serviceDate <= moment().valueOf());
+                                            && myService.serviceDate >= moment().valueOf());
                             return serviceFeed.map((service) => {
                                 return <ServiceRundownListItem key={service.id} {...service} />
                             });

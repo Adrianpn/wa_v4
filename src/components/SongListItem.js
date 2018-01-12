@@ -23,6 +23,7 @@ export default class SongListItem extends React.Component {
             <div>
                 <div className="list-item" onClick={this.onSubmit}>
                     <h3>{this.props.songName}</h3>
+                    <p>{this.props.songTempo}</p>
                     <p>{this.props.songArtist}</p>
                     <Link to={`/songs/edit/${this.props.id}`}>
                         <button>Edit Song</button>
